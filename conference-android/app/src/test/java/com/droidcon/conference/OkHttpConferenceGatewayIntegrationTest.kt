@@ -24,7 +24,7 @@ class OkHttpConferenceGatewayIntegrationTest {
 
         val json = """
             [{
-              "id": "1",
+              "id": 1,
               "name": "Droidcon"
             }]
         """.trimIndent()
@@ -33,7 +33,7 @@ class OkHttpConferenceGatewayIntegrationTest {
 
         val conference = gateway.getConference()
 
-        assertEquals(Conference("1", "Droidcon"), conference)
+        assertEquals(Conference(1, "Droidcon"), conference)
 
         val request = server.takeRequest()
 

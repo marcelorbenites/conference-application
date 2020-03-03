@@ -11,7 +11,7 @@ class ConferenceStateMachineTest {
 
     @Test
     fun `Given a registered conference When start is called Then should emit loaded state with conference`() {
-        val conference = Conference("1", "Droidcon")
+        val conference = Conference(1, "Droidcon")
         val stateMachine = ConferenceStateMachine(
             FakeConferenceGateway(conference),
             FakeDispatcher(),
@@ -30,7 +30,7 @@ class ConferenceStateMachineTest {
 
     @Test
     fun `Given a registered conference When load conference is called Then should emit loaded state with conference`() {
-        val conference = Conference("1", "Droidcon")
+        val conference = Conference(1, "Droidcon")
         val stateMachine = ConferenceStateMachine(
             FakeConferenceGateway(conference),
             FakeDispatcher(),

@@ -12,7 +12,7 @@ class ConferencePresenterTest {
         val viewModel = ConferenceViewModel()
         val presenter = ConferencePresenter(FakeDispatcher(), viewModel)
 
-        presenter.invoke(State(State.Name.LOADED, Conference("1", "Droidcon")))
+        presenter.invoke(State(State.Name.LOADED, Conference(1, "Droidcon")))
 
         assertEquals(false, viewModel.showError)
         assertEquals(false, viewModel.showLoading)

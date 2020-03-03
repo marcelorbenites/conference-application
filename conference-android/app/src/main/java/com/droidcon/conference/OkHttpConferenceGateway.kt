@@ -3,7 +3,6 @@ package com.droidcon.conference
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
-import org.json.JSONObject
 import java.io.IOException
 
 class OkHttpConferenceGateway(
@@ -27,6 +26,6 @@ class OkHttpConferenceGateway(
 
     private fun parseConference(json: String): Conference {
         val conferenceJson = JSONArray(json).getJSONObject(0)
-        return Conference(conferenceJson.getString("id"), conferenceJson.getString("name"))
+        return Conference(conferenceJson.getLong("id"), conferenceJson.getString("name"))
     }
 }

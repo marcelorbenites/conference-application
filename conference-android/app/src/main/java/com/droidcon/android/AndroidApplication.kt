@@ -18,7 +18,7 @@ class AndroidApplication : Application() {
             .registerDispatcherFactory(lazy { RxJavaDispatcherFactory(AndroidSchedulers.mainThread()) })
             .registerConferenceGateway(lazy {
                 OkHttpConferenceGateway(
-                    "http://10.0.2.2:80/",
+                    "http://10.0.2.2:8080/",
                     OkHttpClient()
                 )
             })

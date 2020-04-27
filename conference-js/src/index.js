@@ -1,16 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
-import Reducers from './Reducers'
-import {Provider} from 'react-redux';
-import './index.css';
-import App from './App';
-
-const store = createStore(Reducers);
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import { App } from "./App";
+import { DependencyManager } from "./DependencyManager";
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App/>
-    </Provider>,
-    document.getElementById('root')
+  <App dependencyManager={new DependencyManager()} />,
+  document.getElementById("root")
 );

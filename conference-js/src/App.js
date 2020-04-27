@@ -1,17 +1,50 @@
-import React from 'react';
-import LikeButton from "./LikeButton";
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { css } from "@emotion/core";
+import { ConferenceText } from "./ConferenceText";
+import logo from "./logo.svg";
 
-function App() {
+export class App extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.dependencyManager = props.dependencyManager;
+    this.conferecenController = this.dependencyManager.getConferenceController();
+  }
+
+  componentDidMount() {
+    this.conferecenController.start();
+  }
+
+  render() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <LikeButton/>
-            </header>
-        </div>
+      <div
+        css={css`
+          text-align: center;
+        `}
+      >
+        <header
+          css={css`
+            background-color: #282c34;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: calc(10px + 2vmin);
+            color: white;
+          `}
+        >
+          <img
+            src={logo}
+            alt="logo"
+            css={css`
+              height: 40px;
+            `}
+          />
+          <ConferenceText
+            viewModel={this.dependencyManager.getConferenceViewModel()}
+          />
+        </header>
+      </div>
     );
+  }
 }
-
-export default App;

@@ -1,25 +1,21 @@
 import { StateMachine } from "./StateMachine";
 
 export class ConferenceStateMachine extends StateMachine {
-  constructor(dispatcher, conferenceGateway) {
+  constructor(conferenceGateway) {
     super();
-    this.dispatcher = dispatcher;
     this.conferenceGateway = conferenceGateway;
   }
 
-  start() {
-    this.loadConference();
+  async start() {
+    await this.loadConference();
   }
 
-  loadConference() {
-    this.dispatcher.dispatch(
-      () => {
-        this.moveToLoading();
-        this.moveToLoaded(this.conferenceGateway.getConference());
-      },
-      (e) => {
-        this.moveToError(e);
-      }
-    );
+  async loadConference() {
+    this.moveToLoading();
+    try {
+      this.moveToLoaded(await this.conferenceGateway.getConference());
+    } catch (e) {
+      this.moveToError(e);
+    }
   }
 }

@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class ConferencesController {
 
-//    @Autowired
-//    lateinit var repository: ConferenceRepository
-
     @CrossOrigin(origins = ["*"])
     @RequestMapping("/conferences")
-    fun conferences() = listOf<Conference>()
+    fun conferences() = listOf<Conference>(Conference(1, "Droidcon"))
 }

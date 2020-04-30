@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { App } from "./App";
 import { ConferenceApplication } from "./ConferenceApplication";
 import { css } from "@emotion/core";
+import {HttpClient} from "./HttpClient";
 
 ReactDOM.render(
   <App
@@ -21,7 +22,7 @@ ReactDOM.render(
           monospace;
       }
     `}
-    application={new ConferenceApplication()}
+    application={new ConferenceApplication(new HttpClient())}
   />,
   document.getElementById("root")
 );

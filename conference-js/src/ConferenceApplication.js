@@ -1,38 +1,63 @@
-import { ConferenceStateMachine } from "./ConferenceStateMachine";
-import { HttpConferenceGateway } from "./HttpConferenceGateway";
-import { ConferencePresenter } from "./ConferencePresenter";
-import { ViewModel } from "./ViewModel";
-import { HttpClient } from "./HttpClient";
-
 export class ConferenceApplication {
-  conferenceController = null;
-  conferenceViewModel = null;
+  model = {
+    showLoading: true,
+    showError: false,
+    showConference: false,
+    conferenceName: "",
+    errorMessage: "",
+  };
+  callback = null;
 
-  constructor(httpClient = new HttpClient()) {
+  constructor(httpClient, baseUrl = "http://localhost:3000") {
+    this.baseUrl = baseUrl;
     this.httpClient = httpClient;
   }
 
-  async start() {
-    await this.getConferenceController().start();
+  async loadConference() {
+    this.showLoading();
+    try {
+      const request = await this.httpClient.get(`${this.baseUrl}/conferences`);
+
+      if (request.status === 200) {
+        this.showConference(JSON.parse(await request.getBody())[0]);
+      } else {
+        this.showError("Failed to return conferences.");
+      }
+    } catch (e) {
+      this.showError(e);
+    }
   }
 
-  getConferenceController() {
-    if (this.conferenceController == null) {
-      const conferenceStateMachine = new ConferenceStateMachine(
-        new HttpConferenceGateway(this.httpClient)
-      );
-      conferenceStateMachine.addStateChangedListener(
-        new ConferencePresenter(this.getConferenceViewModel())
-      );
-      this.conferenceController = conferenceStateMachine;
-    }
-    return this.conferenceController;
+  onChange(callback) {
+    this.callback = callback;
   }
 
-  getConferenceViewModel() {
-    if (this.conferenceViewModel == null) {
-      this.conferenceViewModel = new ViewModel();
+  showError(errorMessage) {
+    this.model.showLoading = false;
+    this.model.showError = true;
+    this.model.errorMessage = errorMessage;
+    this.model.showConference = false;
+    this.notifyChange();
+  }
+
+  showConference(conference) {
+    this.model.showLoading = false;
+    this.model.showError = false;
+    this.model.showConference = true;
+    this.model.conferenceName = conference.name;
+    this.notifyChange();
+  }
+
+  showLoading() {
+    this.model.showLoading = true;
+    this.model.showError = false;
+    this.model.showConference = false;
+    this.notifyChange();
+  }
+
+  notifyChange() {
+    if (this.callback) {
+      this.callback();
     }
-    return this.conferenceViewModel;
   }
 }

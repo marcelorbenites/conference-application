@@ -1,5 +1,5 @@
-import {ConferenceApplication} from "../ConferenceApplication";
-import {FakeHttpClient} from "../__mocks__/FakeHttpClient";
+import { ConferenceApplication } from "../ConferenceApplication";
+import { FakeHttpClient } from "../__mocks__/FakeHttpClient";
 
 describe("Application", () => {
   it("shows conference name", async () => {
@@ -7,18 +7,19 @@ describe("Application", () => {
       new FakeHttpClient({
         status: 200,
         async getBody() {
-          return "[{\"id\" : 1, \"name\": \"Droidcon\"}]";
+          return '[{"id" : 1, "name": "Droidcon"}]';
         },
       })
     );
 
-    const viewModel = application.getConferenceViewModel();
+    await application.loadConference();
 
-    await application.start();
-
-    expect(viewModel.showLoading).toBe(false);
-    expect(viewModel.showError).toBe(false);
-    expect(viewModel.showConference).toBe(true);
-    expect(viewModel.conferenceName).toBe("Droidcon");
+    expect(application.model).toStrictEqual({
+      showLoading: false,
+      showError: false,
+      showConference: true,
+      conferenceName: "Droidcon",
+      errorMessage: "",
+    });
   });
 });

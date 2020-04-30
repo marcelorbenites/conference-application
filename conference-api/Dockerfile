@@ -1,6 +1,6 @@
 FROM openjdk:12-alpine as JDK
 WORKDIR /app
-COPY . /app
+COPY . ./
 RUN ./gradlew clean bootJar
 
 FROM openjdk:12-alpine as JAR

@@ -1,5 +1,3 @@
-import React from "react";
-
 export const ConferenceText = (props) => {
   const {
     errorMessage,

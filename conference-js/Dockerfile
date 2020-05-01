@@ -5,7 +5,7 @@ RUN yarn
 RUN yarn build
 
 FROM node:12.14.1-alpine as BUILD
-RUN npm install -g serve
+RUN yarn global add serve
 WORKDIR /app
 COPY --from=NODE /app/build ./build
 

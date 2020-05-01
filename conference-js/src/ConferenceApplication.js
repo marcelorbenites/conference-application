@@ -8,7 +8,7 @@ export class ConferenceApplication {
   };
   callback = null;
 
-  constructor(httpClient, baseUrl = "http://localhost:3000") {
+  constructor(httpClient, baseUrl = "http://localhost:8080") {
     this.baseUrl = baseUrl;
     this.httpClient = httpClient;
   }

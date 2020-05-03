@@ -1,9 +1,9 @@
+import { hot } from 'react-hot-loader/root';
 import React from "react";
-import { css } from "@emotion/core";
 import { ConferenceText } from "./ConferenceText";
 import logo from "./logo.svg";
 
-export class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.application = this.props.application;
@@ -23,28 +23,28 @@ export class App extends React.Component {
   render() {
     return (
       <div
-        css={() => css`
-          text-align: center;
-        `}
+        // css={() => css`
+        //   text-align: center;
+        // `}
       >
         <header
-          css={() => css`
-            background-color: #282c34;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: calc(10px + 2vmin);
-            color: white;
-          `}
+          // css={() => css`
+          //   background-color: #282c34;
+          //   min-height: 100vh;
+          //   display: flex;
+          //   flex-direction: column;
+          //   align-items: center;
+          //   justify-content: center;
+          //   font-size: calc(10px + 2vmin);
+          //   color: white;
+          // `}
         >
           <img
             src={logo}
             alt="logo"
-            css={() => css`
-              height: 40px;
-            `}
+            // css={() => css`
+            //   height: 40px;
+            // `}
           />
           <ConferenceText model={this.application.model} />
         </header>
@@ -52,3 +52,5 @@ export class App extends React.Component {
     );
   }
 }
+
+export default hot(App);

@@ -1,8 +1,9 @@
 FROM node:12.14.1-alpine as NODE
 WORKDIR /app
 COPY . ./
+RUN yarn global add webpack webpack-cli
 RUN yarn
-RUN yarn build
+RUN webpack --mode production
 
 FROM node:12.14.1-alpine as BUILD
 RUN yarn global add serve

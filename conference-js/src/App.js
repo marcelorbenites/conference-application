@@ -1,4 +1,7 @@
-import { hot } from 'react-hot-loader/root';
+// this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
+import { hot } from "react-hot-loader/root";
 import React from "react";
 import { ConferenceText } from "./ConferenceText";
 import logo from "./logo.svg";
@@ -22,29 +25,25 @@ class App extends React.Component {
 
   render() {
     return (
-      <div
-        // css={() => css`
-        //   text-align: center;
-        // `}
-      >
+      <div>
         <header
-          // css={() => css`
-          //   background-color: #282c34;
-          //   min-height: 100vh;
-          //   display: flex;
-          //   flex-direction: column;
-          //   align-items: center;
-          //   justify-content: center;
-          //   font-size: calc(10px + 2vmin);
-          //   color: white;
-          // `}
+          css={() => css`
+            background-color: #282c34;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+          `}
         >
           <img
             src={logo}
             alt="logo"
-            // css={() => css`
-            //   height: 40px;
-            // `}
+            css={() => css`
+              height: 500px;
+            `}
           />
           <ConferenceText model={this.application.model} />
         </header>

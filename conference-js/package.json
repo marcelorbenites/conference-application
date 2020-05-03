@@ -13,7 +13,8 @@
   },
   "scripts": {
     "build": "webpack --mode development",
-    "start": "webpack-dev-server --mode development"
+    "start": "webpack-dev-server --mode development",
+    "test": "jest"
   },
   "browserslist": {
     "production": [
@@ -29,7 +30,7 @@
   },
   "babel": {
     "presets": [
-      "@babel/env",
+      "@babel/preset-env",
       "@babel/preset-react"
     ],
     "plugins": [
@@ -38,17 +39,34 @@
       "react-hot-loader/babel"
     ]
   },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
+    "@types/jest": "^25.2.1",
+    "babel-jest": "^25.5.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-emotion": "^10.0.33",
     "css-loader": "^3.5.3",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^25.5.4",
+    "jest-emotion": "^10.0.32",
     "prettier": "^2.0.5",
     "style-loader": "^1.2.1",
     "svg-url-loader": "^5.0.0",

@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime";
 import { ConferenceApplication } from "../ConferenceApplication";
 import { FakeHttpClient } from "../__mocks__/FakeHttpClient";
 

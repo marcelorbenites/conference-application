@@ -16,7 +16,7 @@ class StateMachineTest {
 
             stateMachine.moveToLoading()
 
-            assertEquals(State(State.Name.LOADING, null, null), stateMachine.state.first())
+            assertEquals(Loading<TestValue>(), stateMachine.state.first())
         }
 
     @Test
@@ -27,7 +27,7 @@ class StateMachineTest {
 
             stateMachine.moveToLoaded(value)
 
-            assertEquals(State(State.Name.LOADED, value, null), stateMachine.state.first())
+            assertEquals(Loaded(value), stateMachine.state.first())
         }
 
     @Test
@@ -39,7 +39,7 @@ class StateMachineTest {
             stateMachine.moveToError(IllegalStateException())
 
             assertEquals(
-                State<TestValue, TestError>(State.Name.ERROR, error = error),
+                Failure<TestValue, TestError>(error = error),
                 stateMachine.state.first()
             )
         }

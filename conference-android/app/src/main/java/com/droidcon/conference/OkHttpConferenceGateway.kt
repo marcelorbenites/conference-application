@@ -17,8 +17,8 @@ class OkHttpConferenceGateway(
 
         return suspendCoroutine { block ->
             httpClient.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, exception: IOException) {
-                    block.resumeWith(Result.failure(exception))
+                override fun onFailure(call: Call, e: IOException) {
+                    block.resumeWith(Result.failure(e))
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -26,7 +26,7 @@ class OkHttpConferenceGateway(
                         block.resumeWith(Result.failure(IOException()))
                     } else {
                         val conference = parseConference(
-                            response.body()!!.string()
+                            response.body!!.string()
                         )
                         block.resumeWith(Result.success(conference))
                     }

@@ -1,14 +1,7 @@
 package com.droidcon.state
 
-data class State<T, E>(
-    val name: Name,
-    val value: T? = null,
-    val error: E? = null
-) {
-    enum class Name {
-        IDLE,
-        LOADING,
-        LOADED,
-        ERROR
-    }
-}
+sealed class State<out T, out E>
+object Idle : State<Nothing, Nothing>()
+data class Loading<T>(val value: T? = null) : State<T, Nothing>()
+data class Loaded<T>(val value: T) : State<T, Nothing>()
+data class Failure<T, E>(val error: E, val value: T? = null) : State<T, E>()

@@ -7,6 +7,6 @@ import com.droidcon.conference.LoadConference
 import kotlinx.coroutines.flow.Flow
 
 interface DependencyInjector {
-    val conferencePresenter: ConferencePresenter
-    val conferenceController: ConferenceController
+    fun conferencePresenter(): ConferencePresenter
+    fun conferenceController(): ConferenceController
 }

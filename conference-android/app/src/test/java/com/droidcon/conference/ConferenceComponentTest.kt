@@ -9,17 +9,14 @@ import androidx.test.rule.ActivityTestRule
 import com.droidcon.Droidcon
 import com.droidcon.TestActivity
 import com.droidcon.android.AndroidApplication
-import com.droidcon.onCreate
 import com.droidcon.testing.R
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class ConferenceComponentTest {
 
@@ -42,7 +39,7 @@ class ConferenceComponentTest {
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
 
         val droidcon = Droidcon(Dispatchers.Unconfined, baseUrl)
-        (rule.activity.application as AndroidApplication).onCreate(droidcon)
+        (rule.activity.application as AndroidApplication).droidcon = droidcon
         rule.activity.showFragment(ConferenceFragment())
 
         onView(withId(R.id.conferenceName)).check(matches(ViewMatchers.withText("Droidcon")))

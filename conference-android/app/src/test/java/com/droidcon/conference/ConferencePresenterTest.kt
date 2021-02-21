@@ -1,23 +1,25 @@
 package com.droidcon.conference
 
 import com.droidcon.gateway.GatewayError
+import com.droidcon.state.Failure
+import com.droidcon.state.Loaded
+import com.droidcon.state.Loading
 import com.droidcon.state.State
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.io.IOException
 
-@ExperimentalCoroutinesApi
 class ConferencePresenterTest {
 
     @Test
     fun `Given a loaded conference When state is updated Then show conference name`() =
         runBlocking {
             val state: Flow<State<Conference, GatewayError>> = flow {
-                emit(State(State.Name.LOADED, Conference(1, "Droidcon")))
+                emit(Loaded(Conference(1, "Droidcon")))
             }
             val presenter = ConferencePresenter(state)
 
@@ -33,7 +35,7 @@ class ConferencePresenterTest {
     @Test
     fun `Given a loading state When state is updated Then show loading`() = runBlocking {
         val state: Flow<State<Conference, GatewayError>> = flow {
-            emit(State(State.Name.LOADING))
+            emit(Loading<Conference>())
         }
         val presenter = ConferencePresenter(state)
 
@@ -47,19 +49,18 @@ class ConferencePresenterTest {
     }
 
     @Test
-    fun `Given a error state When state is updated Then show error And show retry`() =
-        runBlocking {
-            val state: Flow<State<Conference, GatewayError>> = flow {
-                emit(State(State.Name.ERROR))
-            }
-            val presenter = ConferencePresenter(state)
-
-            val viewModel = presenter.viewModel.first()
-
-            assertEquals(true, viewModel.showError)
-            assertEquals(false, viewModel.showLoading)
-            assertEquals(true, viewModel.hideName)
-            assertEquals(true, viewModel.showRetry)
-            assertEquals("", viewModel.name)
+    fun `Given a error state When state is updated Then show error And show retry`() = runBlocking {
+        val state: Flow<State<Conference, GatewayError>> = flow {
+            emit(Failure<Conference, GatewayError>(GatewayError(IOException())))
         }
+        val presenter = ConferencePresenter(state)
+
+        val viewModel = presenter.viewModel.first()
+
+        assertEquals(true, viewModel.showError)
+        assertEquals(false, viewModel.showLoading)
+        assertEquals(true, viewModel.hideName)
+        assertEquals(true, viewModel.showRetry)
+        assertEquals("", viewModel.name)
+    }
 }

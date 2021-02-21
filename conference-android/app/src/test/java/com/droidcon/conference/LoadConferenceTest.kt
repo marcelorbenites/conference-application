@@ -1,7 +1,7 @@
 package com.droidcon.conference
 
 import com.droidcon.gateway.GatewayError
-import com.droidcon.state.State
+import com.droidcon.state.Loaded
 import com.droidcon.state.StateMachine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -25,7 +25,7 @@ class LoadConferenceTest {
             )()
 
             assertEquals(
-                State<Conference, GatewayError>(State.Name.LOADED, conference),
+                Loaded(conference),
                 stateMachine.state.first()
             )
         }

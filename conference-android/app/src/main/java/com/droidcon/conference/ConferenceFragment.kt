@@ -1,6 +1,7 @@
 package com.droidcon.conference
 
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.droidcon.android.injector
@@ -11,16 +12,12 @@ import kotlinx.coroutines.launch
 
 class ConferenceFragment : Fragment(R.layout.fragment_conference) {
 
-    private val conferencePresenter by lazy {
-        requireContext().injector().conferencePresenter
-    }
-
-    private val conferenceController by lazy {
-        requireContext().injector().conferenceController
-    }
+    private val injector by lazy { requireContext().injector() }
 
     override fun onResume() {
         super.onResume()
+        val conferenceController = injector.conferenceController()
+        val conferencePresenter = injector.conferencePresenter()
         lifecycleScope.launch {
             conferencePresenter.viewModel.collect { viewModel ->
                 if (viewModel.hideName) {
@@ -30,8 +27,7 @@ class ConferenceFragment : Fragment(R.layout.fragment_conference) {
                     conferenceName.visibility = View.VISIBLE
                 }
 
-                errorText.visibility =
-                    if (viewModel.showError) View.VISIBLE else View.GONE
+                errorText.isVisible = viewModel.showError
                 retryButton.visibility =
                     if (viewModel.showRetry) View.VISIBLE else View.GONE
                 loadingProgressBar.visibility =

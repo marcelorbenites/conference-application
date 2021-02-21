@@ -1,27 +1,24 @@
 package com.droidcon.conference
 
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
+import androidx.test.platform.app.InstrumentationRegistry
 import com.droidcon.Droidcon
-import com.droidcon.TestActivity
 import com.droidcon.android.AndroidApplication
+import com.droidcon.android.MainActivity
 import com.droidcon.testing.R
 import kotlinx.coroutines.Dispatchers
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ConferenceComponentTest {
-
-    @get:Rule
-    val rule: ActivityTestRule<TestActivity> = ActivityTestRule(TestActivity::class.java)
 
     @Test
     fun `Given a registered conference When conference screen appears Then show conference name`() {
@@ -38,9 +35,9 @@ class ConferenceComponentTest {
 
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
 
-        val droidcon = Droidcon(Dispatchers.Unconfined, baseUrl)
-        (rule.activity.application as AndroidApplication).droidcon = droidcon
-        rule.activity.showFragment(ConferenceFragment())
+        (InstrumentationRegistry.getInstrumentation().targetContext as AndroidApplication)
+            .droidcon = Droidcon(Dispatchers.Unconfined, baseUrl)
+        ActivityScenario.launch(MainActivity::class.java)
 
         onView(withId(R.id.conferenceName)).check(matches(ViewMatchers.withText("Droidcon")))
 

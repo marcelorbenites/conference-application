@@ -34,11 +34,15 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${jetpackAppCompatVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
     implementation "androidx.recyclerview:recyclerview:${androidJetpackVersion}"
+    implementation "androidx.lifecycle:lifecycle-process:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
     implementation "com.google.android.material:material:${androidJetpackVersion}"
     implementation "androidx.legacy:legacy-support-v4:${androidJetpackVersion}"
     implementation "androidx.vectordrawable:vectordrawable-animated:${androidJetpackVersion}"
     implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     implementation "io.reactivex.rxjava2:rxandroid:${rxJavaAndroidVersion}"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
@@ -52,6 +56,7 @@ dependencies {
     testImplementation "org.robolectric:robolectric:${robolectricVersion}"
     testImplementation "io.mockk:mockk:${mockkVersion}"
     testImplementation "net.bytebuddy:byte-buddy-agent:${byteBuddyAgentVersion}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2"
 
     androidTestImplementation "androidx.test:runner:${supportTestRunnerVersion}"
     androidTestImplementation "androidx.test:rules:${supportTestRulesVersion}"

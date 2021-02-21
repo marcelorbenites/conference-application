@@ -6,17 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.droidcon.DependencyManager
 import com.droidcon.android.ViewContainer
 import com.droidcon.testing.R
 import kotlinx.android.synthetic.main.fragment_conference.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class ConferenceFragment : Fragment() {
 
     private var dependencyManager: DependencyManager? = null
 
-    private val conferenceViewModel by lazy {
-        dependencyManager!!.conferenceViewModel
+    private val conferencePresenter by lazy {
+        dependencyManager!!.conferencePresenter
     }
 
     private val conferenceController by lazy {
@@ -38,28 +41,26 @@ class ConferenceFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        conferenceViewModel.setObserver {
-            if (conferenceViewModel.hideName) {
-                conferenceName.visibility = View.GONE
-            } else {
-                conferenceName.text = conferenceViewModel.name
-                conferenceName.visibility = View.VISIBLE
-            }
+        lifecycleScope.launch {
+            conferencePresenter.viewModel.collect { conferenceViewModel ->
+                if (conferenceViewModel.hideName) {
+                    conferenceName.visibility = View.GONE
+                } else {
+                    conferenceName.text = conferenceViewModel.name
+                    conferenceName.visibility = View.VISIBLE
+                }
 
-            errorText.visibility = if (conferenceViewModel.showError) View.VISIBLE else View.GONE
-            retryButton.visibility = if (conferenceViewModel.showRetry) View.VISIBLE else View.GONE
-            loadingProgressBar.visibility =
-                if (conferenceViewModel.showLoading) View.VISIBLE else View.GONE
+                errorText.visibility =
+                    if (conferenceViewModel.showError) View.VISIBLE else View.GONE
+                retryButton.visibility =
+                    if (conferenceViewModel.showRetry) View.VISIBLE else View.GONE
+                loadingProgressBar.visibility =
+                    if (conferenceViewModel.showLoading) View.VISIBLE else View.GONE
+            }
         }
         retryButton.setOnClickListener {
-            conferenceController.loadConference()
+            conferenceController.onRetry()
         }
-    }
-
-    override fun onPause() {
-        conferenceViewModel.removeObserver()
-        retryButton.setOnClickListener(null)
-        super.onPause()
     }
 
     override fun onDetach() {

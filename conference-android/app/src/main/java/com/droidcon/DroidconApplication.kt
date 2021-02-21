@@ -3,40 +3,29 @@ package com.droidcon
 import com.droidcon.conference.*
 import com.droidcon.gateway.GatewayError
 import com.droidcon.gateway.GatewayErrorFactory
-import com.droidcon.state.Dispatcher
+import com.droidcon.state.State
 import com.droidcon.state.StateMachine
+import kotlinx.coroutines.flow.map
 
 class DroidconApplication private constructor(
     lazyDispatcherFactory: Lazy<DispatcherFactory>,
     lazyConferenceGateway: Lazy<ConferenceGateway>
 ) : DependencyManager {
 
-    override val conferenceViewModel: ConferenceViewModel by lazy {
-        val conferenceViewModel = ConferenceViewModel()
-        conferenceStateMachine.addStateChangedListener(ConferencePresenter(mainDispatcher, conferenceViewModel))
-        conferenceViewModel
-    }
+    private val conferenceStateMachine =
+        StateMachine<Conference, GatewayError>(GatewayErrorFactory())
 
-    override val conferenceController: ConferenceController by lazy {
-        conferenceStateMachine
-    }
+    private val loadConference = LoadConference(
+        lazyDispatcherFactory.value.createSerialDispatcher("Conference"),
+        conferenceStateMachine,
+        lazyConferenceGateway.value
+    )
 
-    private val conferenceStateMachine: ConferenceStateMachine by lazy {
-        val machine = ConferenceStateMachine(
-            lazyConferenceGateway.value,
-            lazyDispatcherFactory.value.createSerialDispatcher("Conference"),
-            GatewayErrorFactory()
-        )
-        machine
-    }
+    override val conferenceController = ConferenceController(loadConference)
 
-    private val mainDispatcher: Dispatcher by lazy {
-        lazyDispatcherFactory.value.createMainDispatcher()
-    }
+    override val conferencePresenter = ConferencePresenter(conferenceStateMachine.state)
 
-    private fun start() {
-        conferenceStateMachine.start()
-    }
+    private fun start() { loadConference() }
 
     class Builder {
 

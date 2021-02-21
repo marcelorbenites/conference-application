@@ -1,5 +1,5 @@
 package com.droidcon.conference
 
-interface ConferenceController {
-    fun loadConference()
+class ConferenceController(private val loadConference: LoadConference) {
+    fun onRetry() { loadConference() }
 }

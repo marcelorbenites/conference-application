@@ -10,7 +10,6 @@ class GatewayErrorTest {
     @Test
     fun `Given an IO cause When is network checked Then return true`() {
         val conferenceError = GatewayError(IOException())
-
         assertEquals(true, conferenceError.network)
     }
 
@@ -27,6 +26,4 @@ class GatewayErrorTest {
 
         assertEquals(false, conferenceError.network)
     }
-
-
 }

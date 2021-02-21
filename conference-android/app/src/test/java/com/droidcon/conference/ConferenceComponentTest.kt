@@ -6,21 +6,21 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.droidcon.DroidconApplication
-import com.droidcon.FakeDispatcherFactory
+import com.droidcon.Droidcon
 import com.droidcon.TestActivity
-import com.droidcon.TestApplication
+import com.droidcon.android.AndroidApplication
+import com.droidcon.onCreate
 import com.droidcon.testing.R
-import okhttp3.OkHttpClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 
+@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-@Config(application = TestApplication::class)
 class ConferenceComponentTest {
 
     @get:Rule
@@ -41,11 +41,8 @@ class ConferenceComponentTest {
 
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
 
-        rule.activity.testDependencyManager = DroidconApplication.Builder()
-            .registerConferenceGateway(lazy { OkHttpConferenceGateway(baseUrl, OkHttpClient()) })
-            .registerDispatcherFactory(lazy { FakeDispatcherFactory() })
-            .start()
-
+        val droidcon = Droidcon(Dispatchers.Unconfined, baseUrl)
+        (rule.activity.application as AndroidApplication).onCreate(droidcon)
         rule.activity.showFragment(ConferenceFragment())
 
         onView(withId(R.id.conferenceName)).check(matches(ViewMatchers.withText("Droidcon")))

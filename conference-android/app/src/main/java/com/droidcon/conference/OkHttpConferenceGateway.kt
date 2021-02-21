@@ -1,26 +1,37 @@
 package com.droidcon.conference
 
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import org.json.JSONArray
 import java.io.IOException
+import kotlin.coroutines.suspendCoroutine
 
 class OkHttpConferenceGateway(
     private val baseUrl: String,
     private val httpClient: OkHttpClient
 ) : ConferenceGateway {
-    override fun getConference(): Conference {
+    override suspend fun getConference(): Conference {
         val request = Request.Builder()
             .url("${baseUrl}conferences")
             .get()
             .build()
 
-        val response = httpClient.newCall(request).execute()
+        return suspendCoroutine { block ->
+            httpClient.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, exception: IOException) {
+                    block.resumeWith(Result.failure(exception))
+                }
 
-        if (!response.isSuccessful) {
-            throw IOException()
-        } else {
-            return parseConference(response.body()!!.string())
+                override fun onResponse(call: Call, response: Response) {
+                    if (!response.isSuccessful) {
+                        block.resumeWith(Result.failure(IOException()))
+                    } else {
+                        val conference = parseConference(
+                            response.body()!!.string()
+                        )
+                        block.resumeWith(Result.success(conference))
+                    }
+                }
+            })
         }
     }
 

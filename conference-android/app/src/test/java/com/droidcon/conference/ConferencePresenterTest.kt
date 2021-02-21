@@ -6,7 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -15,7 +15,7 @@ class ConferencePresenterTest {
 
     @Test
     fun `Given a loaded conference When state is updated Then show conference name`() =
-        runBlockingTest {
+        runBlocking {
             val state: Flow<State<Conference, GatewayError>> = flow {
                 emit(State(State.Name.LOADED, Conference(1, "Droidcon")))
             }
@@ -31,7 +31,7 @@ class ConferencePresenterTest {
         }
 
     @Test
-    fun `Given a loading state When state is updated Then show loading`() = runBlockingTest {
+    fun `Given a loading state When state is updated Then show loading`() = runBlocking {
         val state: Flow<State<Conference, GatewayError>> = flow {
             emit(State(State.Name.LOADING))
         }
@@ -48,7 +48,7 @@ class ConferencePresenterTest {
 
     @Test
     fun `Given a error state When state is updated Then show error And show retry`() =
-        runBlockingTest {
+        runBlocking {
             val state: Flow<State<Conference, GatewayError>> = flow {
                 emit(State(State.Name.ERROR))
             }

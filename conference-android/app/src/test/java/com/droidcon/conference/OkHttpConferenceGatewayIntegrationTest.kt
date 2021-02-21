@@ -1,6 +1,8 @@
 package com.droidcon.conference
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -8,11 +10,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class OkHttpConferenceGatewayIntegrationTest {
 
     @Test
-    fun `When conference is requested Then call db endpoint with GET method`() {
+    fun `When conference is requested Then call db endpoint with GET method`() = runBlocking {
         val server = MockWebServer()
         server.start()
         val baseUrl = server.url("/").toString()

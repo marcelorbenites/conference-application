@@ -1,9 +1,9 @@
 package com.droidcon.conference
 
 data class ConferenceViewModel(
-    var name: String = "",
-    var showLoading: Boolean = false,
-    var showError: Boolean = false,
-    var hideName: Boolean = false,
-    var showRetry: Boolean = false
+    val name: String = "",
+    val showLoading: Boolean = false,
+    val showError: Boolean = false,
+    val hideName: Boolean = false,
+    val showRetry: Boolean = false
 )

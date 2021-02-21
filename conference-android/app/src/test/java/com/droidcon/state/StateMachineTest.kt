@@ -2,7 +2,7 @@ package com.droidcon.state
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -11,7 +11,7 @@ class StateMachineTest {
 
     @Test
     fun `Given an idle state When move to loading is called Then current state should return loading with no value And no error`() =
-        runBlockingTest {
+        runBlocking {
             val stateMachine = StateMachine<TestValue, TestError>(TestErrorFactory())
 
             stateMachine.moveToLoading()
@@ -21,7 +21,7 @@ class StateMachineTest {
 
     @Test
     fun `Given an idle state When move to loaded is called with value Then return loaded with value And no error`() =
-        runBlockingTest {
+        runBlocking {
             val stateMachine = StateMachine<TestValue, TestError>(TestErrorFactory())
             val value = TestValue()
 
@@ -32,7 +32,7 @@ class StateMachineTest {
 
     @Test
     fun `Given an loaded state When move to error is called with error Then should return error state with error`() =
-        runBlockingTest {
+        runBlocking {
             val error = TestError()
             val stateMachine = StateMachine<TestValue, TestError>(TestErrorFactory(error))
 

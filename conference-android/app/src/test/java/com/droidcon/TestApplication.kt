@@ -1,5 +1,8 @@
 package com.droidcon
 
-import android.app.Application
+import com.droidcon.android.AndroidApplication
 
-class TestApplication: Application()
+fun AndroidApplication.onCreate(droidcon: Droidcon) {
+    this.droidcon = droidcon
+    onCreate()
+}

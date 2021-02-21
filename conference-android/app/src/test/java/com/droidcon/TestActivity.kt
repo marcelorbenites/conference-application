@@ -4,16 +4,8 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.droidcon.DependencyManager
-import com.droidcon.android.ViewContainer
 
-class TestActivity : AppCompatActivity(), ViewContainer {
-
-    var testDependencyManager: DependencyManager? = null
-
-    override val dependencyManager: DependencyManager by lazy {
-        testDependencyManager!!
-    }
+class TestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

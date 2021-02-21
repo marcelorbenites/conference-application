@@ -1,21 +1,18 @@
 package com.droidcon.conference
 
 import com.droidcon.gateway.GatewayError
-import com.droidcon.state.Dispatcher
-import com.droidcon.state.ErrorFactory
 import com.droidcon.state.StateMachine
 
 class LoadConference(
-    private val dispatcher: Dispatcher,
     private val stateMachine: StateMachine<Conference, GatewayError>,
     private val conferenceGateway: ConferenceGateway
 ) {
-    operator fun invoke() {
-        dispatcher.dispatch({
+    suspend operator fun invoke() {
+        runCatching {
             stateMachine.moveToLoading()
             stateMachine.moveToLoaded(conferenceGateway.getConference())
-        }, { throwable ->
+        }.onFailure { throwable ->
             stateMachine.moveToError(throwable)
-        })
+        }
     }
 }

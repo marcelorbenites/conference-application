@@ -28,6 +28,7 @@ android {
     }
 
     testOptions {
+        animationsDisabled true
         unitTests.includeAndroidResources = true
     }
 }
@@ -36,28 +37,25 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:${jetpackAppCompatVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
-    implementation "androidx.recyclerview:recyclerview:${androidJetpackVersion}"
+    implementation "androidx.recyclerview:recyclerview:1.2.0"
     implementation 'androidx.core:core-ktx:1.3.2'
-    implementation "androidx.lifecycle:lifecycle-process:2.3.0"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-process:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     implementation "com.google.android.material:material:${materialVersion}"
     implementation "androidx.vectordrawable:vectordrawable-animated:${androidJetpackVersion}"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     testImplementation "androidx.test:core:${androidTestCoreVersion}"
     testImplementation "androidx.test:runner:${supportTestRunnerVersion}"
-    testImplementation "androidx.appcompat:appcompat:${jetpackAppCompatVersion}"
     testImplementation "androidx.test.ext:junit:${androidJUnitVersion}"
     testImplementation "androidx.test:rules:${supportTestRulesVersion}"
     testImplementation "androidx.test.espresso:espresso-core:${espressoVersion}"
-    testImplementation "androidx.test.espresso:espresso-contrib:${espressoVersion}"
     testImplementation "org.robolectric:robolectric:${robolectricVersion}"
     testImplementation "io.mockk:mockk:${mockkVersion}"
-    testImplementation "net.bytebuddy:byte-buddy-agent:${byteBuddyAgentVersion}"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
 
     androidTestImplementation "androidx.test:runner:${supportTestRunnerVersion}"
     androidTestImplementation "androidx.test:rules:${supportTestRulesVersion}"
